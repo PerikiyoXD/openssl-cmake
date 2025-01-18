@@ -36,7 +36,7 @@ function(lookup_makefile STRING KEY VALUES)
 endfunction()
 
 function(parse_makefile FILE KEY VALUES)
-    if(NOT EXISTS "${FILE}")
+    if(NOT EXISTS("${FILE}"))
         message(FATAL_ERROR "Couldn't find Makefile")
     endif()
 
@@ -123,7 +123,7 @@ function(configure_openssl)
 
     message(STATUS "Configure OpenSSL")
     find_program(OPENSSL_CONFIGURE_TOOL perl REQUIRED)
-    list(APPEND CONFIGURE_COMMAND "${OPENSSL_CONFIGURE_TOOL}" "${CONFIGURE_FILE}" ${CONFIGURE_OPTIONS})
+    list(APPEND CONFIGURE_COMMAND "\"${OPENSSL_CONFIGURE_TOOL}\"" "\"${CONFIGURE_FILE}\"" ${CONFIGURE_OPTIONS})
 
     if(OPENSSL_CONFIGURE_VERBOSE)
         set(VERBOSE_OPTION "")
@@ -141,7 +141,7 @@ function(configure_openssl)
 
     if(OPENSSL_CONFIGURE_VERBOSE)
         execute_process(
-            COMMAND "${OPENSSL_CONFIGURE_TOOL}" "configdata.pm" "-d"
+            COMMAND "\"${OPENSSL_CONFIGURE_TOOL}\"" "configdata.pm" "-d"
             WORKING_DIRECTORY "${CONFIGURE_BUILD_DIR}"
             COMMAND_ERROR_IS_FATAL ANY
             COMMAND_ECHO STDOUT
